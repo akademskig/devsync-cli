@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                   // Latest JavaScript features
+    "module": "CommonJS",                 // Node.js uses CommonJS
+    "outDir": "dist",                     // Compiled files go here
+    "rootDir": "src",                     // Keep source files in `src/`
+    "strict": true,                        // Enable strict type checking
+    "esModuleInterop": true,               // Allow importing modules like `import chalk from 'chalk'`
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,             // Allow importing JSON files
+    "declaration": false                   // No need for `.d.ts` files for a CLI
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
