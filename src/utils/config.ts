@@ -6,14 +6,14 @@ const CONFIG_FILE = path.join(process.cwd(), "devsync-config.json");
 
 export interface DevSyncConfig {
   dotfiles: string[];
-  syncDir: string;
+  backupDir: string;
   backend: "local" | "git" | "s3";
   encrypt: boolean;
 }
 
 export const defaultConfig: DevSyncConfig = {
   dotfiles: [],
-  syncDir: path.join(process.cwd(), "devsync_backup"),
+  backupDir: path.join(process.cwd(), "devsync_backup"),
   backend: "local",
   encrypt: false,
 };

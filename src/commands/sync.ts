@@ -13,14 +13,14 @@ export const syncHandler = () => {
 
   log.info("🔄 Syncing dotfiles...");
 
-  if (!fs.existsSync(config.syncDir)) {
-    fs.mkdirSync(config.syncDir);
-    log.success(`📁 Created sync directory: ${config.syncDir}`);
+  if (!fs.existsSync(config.backupDir)) {
+    fs.mkdirSync(config.backupDir);
+    log.success(`📁 Created sync directory: ${config.backupDir}`);
   }
 
   config.dotfiles.forEach((file) => {
     const sourcePath = path.resolve(file);
-    const backupPath = path.join(config.syncDir, path.basename(file));
+    const backupPath = path.join(config.backupDir, path.basename(file));
 
     if (fs.existsSync(sourcePath)) {
       fs.copySync(sourcePath, backupPath);
