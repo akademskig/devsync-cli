@@ -1,38 +1,29 @@
-import { Command } from "commander";
-import { loadConfig, saveConfig, DevSyncConfig } from "../utils/config";
-import log from "../utils/logger";
+import { Command, Option } from "commander";
+import { getConfigHandler, listConfigHandler, setConfigHandler } from "../commandHandlers/config";
 
-const getValue = (key: keyof DevSyncConfig, value: any): any => {
-  if (key === "encrypt") {
-    return value === "true" || value === true;
-  }
-  return value;
-};
+const configCommand = new Command("config").description("Manage DevSync configuration");
 
-export function setConfigHandler(inputConfig: Partial<DevSyncConfig>, cmd: Command) {
-  if (Object.keys(inputConfig).length === 0 || !inputConfig) {
-    log.error("❌ No configuration values provided.");
-    cmd.outputHelp();
-    return;
-  }
-  const config = loadConfig();
-  Object.keys(inputConfig).forEach((key) => {
-    const typedKey = key as keyof DevSyncConfig;
-    const value = getValue(typedKey, inputConfig[typedKey]);
-    Object.assign(config, { [typedKey]: value });
-    log.info(`✅ Config key "${key}" set to: ${value}`);
-  });
-  saveConfig(config);
-}
+configCommand
+  .command("set")
+  .addOption(new Option("-e, --encrypt <boolean>", "Set encrypt value").choices(["true", "false"]))
+  .addOption(new Option("-d, --backup-dir <path>", "Set backup directory"))
+  .addOption(
+    new Option("-b, --backend <path>", "Set backend server").choices(["local", "s3", "git"]),
+  )
+  .description("Set a configuration value")
+  .action(setConfigHandler);
 
-export const getConfigHandler = (input: keyof DevSyncConfig): any => {
-  const keys = Object.keys(input) as (keyof DevSyncConfig)[];
-  const config = loadConfig();
-  keys.forEach((key) => {
-    log.info(`🔑 ${key}: ${config[key as keyof DevSyncConfig]}`);
-  });
-};
+configCommand
+  .command("get")
+  .addOption(new Option("-e, --encrypt", "Get encrypt value"))
+  .addOption(new Option("-d, --backup-dir", "Get backup directory"))
+  .addOption(new Option("-b, --backend", "Get backend server"))
+  .description("Get a configuration value")
+  .action(getConfigHandler);
 
-export const listConfigHandler = () => {
-  console.table(loadConfig());
-};
+configCommand
+  .command("list")
+  .description("List all configuration settings")
+  .action(listConfigHandler);
+
+export default configCommand;

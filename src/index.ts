@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-import { Command, Option } from "commander";
+import { Command } from "commander";
 import log from "./utils/logger";
-import { initHandler } from "./commands/init";
-import { addDotfileHandler } from "./commands/addDotfile";
-import { backupHander } from "./commands/backupHandler";
-import { getConfigHandler, listConfigHandler, setConfigHandler } from "./commands/config";
+import { initHandler } from "./commandHandlers/init";
+import { addDotfileHandler } from "./commandHandlers/addDotfile";
+import { backupHander } from "./commandHandlers/backup";
+import configCommand from "./commands/config";
+import setupCommand from "./commands/setup";
 
 const program = new Command();
-const configCommand = new Command("config");
 
 log.info("\n🚀 DevSync - Automated Dev Environment Setup & Sync Tool\n");
 
@@ -27,29 +27,7 @@ program
 
 program.command("backup").description("Backup all dotfiles").action(backupHander);
 
-configCommand
-  .command("set")
-  .addOption(new Option("-e, --encrypt <boolean>", "Set encrypt value").choices(["true", "false"]))
-  .addOption(new Option("-d, --backup-dir <path>", "Set backup directory"))
-  .addOption(
-    new Option("-b, --backend <path>", "Set backend server").choices(["local", "s3", "git"]),
-  )
-  .description("Set a configuration value")
-  .action(setConfigHandler);
-
-configCommand
-  .command("get")
-  .addOption(new Option("-e, --encrypt", "Get encrypt value"))
-  .addOption(new Option("-d, --backup-dir", "Get backup directory"))
-  .addOption(new Option("-b, --backend", "Get backend server"))
-  .description("Get a configuration value")
-  .action(getConfigHandler);
-
-configCommand
-  .command("list")
-  .description("List all configuration settings")
-  .action(listConfigHandler);
-
 program.addCommand(configCommand);
+program.addCommand(setupCommand);
 
 program.parse(process.argv);
