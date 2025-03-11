@@ -12,7 +12,7 @@ import log from "../utils/logger";
  *
  * @returns {void}
  */
-export const initCommand = () => {
+export const initHandler = () => {
   const configPath = path.join(process.cwd(), "devsync-config.json");
 
   if (fs.existsSync(configPath)) {

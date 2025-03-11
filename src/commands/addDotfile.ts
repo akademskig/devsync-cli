@@ -1,7 +1,7 @@
 import log from "../utils/logger";
 import { loadConfig, saveConfig } from "../utils/config";
 
-export const addDotfileCommand = (filepath: string) => {
+export const addDotfileHandler = (filepath: string) => {
   const config = loadConfig();
 
   if (!config.dotfiles.includes(filepath)) {

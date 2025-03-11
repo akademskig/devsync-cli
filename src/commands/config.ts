@@ -1,7 +1,7 @@
 import { loadConfig, saveConfig, DevSyncConfig, defaultConfig } from "../utils/config";
 import log from "../utils/logger";
 
-export const setConfig = (key: keyof DevSyncConfig, value: any): void => {
+export const setConfigHandler = (key: keyof DevSyncConfig, value: any): void => {
   const config = loadConfig();
   if (key in defaultConfig) {
     if (key === "encrypt") {
@@ -16,11 +16,11 @@ export const setConfig = (key: keyof DevSyncConfig, value: any): void => {
   saveConfig(config);
 };
 
-export const getConfig = (key: keyof DevSyncConfig): any => {
+export const getConfigHandler = (key: keyof DevSyncConfig): any => {
   const config = loadConfig();
   return config[key] || null;
 };
 
-export const listConfig = () => {
+export const listConfigHandler = () => {
   console.table(loadConfig());
 };
