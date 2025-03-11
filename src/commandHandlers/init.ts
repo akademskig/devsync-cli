@@ -1,25 +1,20 @@
-import fs from "fs-extra";
-import path from "path";
+import { existsSync } from "fs-extra";
+import { saveConfig, defaultConfig } from "../utils/config";
 import log from "../utils/logger";
+import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_FORMAT } from "../common/constants";
+import { FormatEnum } from "../types/format";
 
-/**
- * Initializes the DevSync configuration by creating a `devsync-config.json` file
- * in the current working directory if it does not already exist.
- *
- * - If the configuration file already exists, a warning message is logged.
- * - If the configuration file does not exist, it is created with an initial
- *   structure containing an empty `dotfiles` array, and a success message is logged.
- *
- * @returns {void}
- */
-export const initHandler = () => {
-  const configPath = path.join(process.cwd(), "devsync-config.json");
-
-  if (fs.existsSync(configPath)) {
+export const initHandler = (options: { format?: FormatEnum }) => {
+  const format = (options?.format?.toLowerCase() || DEFAULT_CONFIG_FILE_FORMAT) as FormatEnum;
+  const configPathYaml = `${CONFIG_FILE_NAME}.yaml`;
+  const configPathJson = `${CONFIG_FILE_NAME}.json`;
+  if (existsSync(configPathYaml) || existsSync(configPathJson)) {
     log.warn("⚠️ DevSync is already initialized.");
     return;
   }
 
-  fs.writeJSONSync(configPath, { dotfiles: [] }, { spaces: 2 });
-  log.success("✅ DevSync has been initialized successfully!");
+  log.info(`🛠️ Initializing DevSync with ${format.toUpperCase()} format...`);
+
+  saveConfig({ ...defaultConfig }, format);
+  log.success(`✅ DevSync initialized with ${format.toUpperCase()} configuration.`);
 };

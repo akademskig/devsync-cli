@@ -1,8 +1,12 @@
 import fs from "fs-extra";
 import path from "path";
+import yaml from "yaml";
 import log from "./logger";
+import { CONFIG_FILE_NAME, DEFAULT_CONFIG_FILE_FORMAT } from "../common/constants";
+import { FormatEnum } from "../types/format";
 
-const CONFIG_FILE = path.join(process.cwd(), "devsync-config.json");
+const CONFIG_YAML = `${CONFIG_FILE_NAME}.yaml`;
+const CONFIG_JSON = `${CONFIG_FILE_NAME}.json`;
 
 export interface DevSyncConfig {
   dotfiles: string[];
@@ -18,15 +22,36 @@ export const defaultConfig: DevSyncConfig = {
   encrypt: false,
 };
 
-export const loadConfig = (): DevSyncConfig => {
-  if (!fs.existsSync(CONFIG_FILE)) {
-    log.warn("⚠️ Config file not found. Initializing with defaults...");
-    return defaultConfig;
-  }
-  return fs.readJSONSync(CONFIG_FILE);
+// Detect format based on existing files
+const detectConfigFormat = (): FormatEnum => {
+  if (fs.existsSync(CONFIG_YAML)) return FormatEnum.YAML;
+  if (fs.existsSync(CONFIG_JSON)) return FormatEnum.JSON;
+  return DEFAULT_CONFIG_FILE_FORMAT; // Default to YAML
 };
 
-export const saveConfig = (config: DevSyncConfig): void => {
-  fs.writeJSONSync(CONFIG_FILE, config, { spaces: 2 });
-  log.success(`✅ Config updated: ${CONFIG_FILE}`);
+// Load the config based on format
+export const loadConfig = (): DevSyncConfig => {
+  const format = detectConfigFormat();
+  const configPath = format === FormatEnum.YAML ? CONFIG_YAML : CONFIG_JSON;
+
+  if (!fs.existsSync(configPath)) {
+    log.warn(`⚠️ Config file not found. Initializing with ${format} format...`);
+    saveConfig(defaultConfig, format);
+    return defaultConfig;
+  }
+
+  const fileContents = fs.readFileSync(configPath, "utf8");
+  return format === "yaml" ? yaml.parse(fileContents) : JSON.parse(fileContents);
+};
+
+// Save config in the chosen format
+export const saveConfig = (config: DevSyncConfig, format?: FormatEnum): void => {
+  format = format || detectConfigFormat();
+  const configPath = format === FormatEnum.YAML ? CONFIG_YAML : CONFIG_JSON;
+
+  const data =
+    format === FormatEnum.YAML ? yaml.stringify(config) : JSON.stringify(config, null, 2);
+  fs.writeFileSync(configPath, data, "utf8");
+
+  log.success(`✅ Config updated in ${format.toUpperCase()} format: ${configPath}`);
 };
