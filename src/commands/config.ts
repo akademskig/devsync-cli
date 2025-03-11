@@ -5,7 +5,8 @@ const configCommand = new Command("config").description("Manage DevSync configur
 
 configCommand
   .command("set")
-  .addOption(new Option("-e, --encrypt <boolean>", "Set encrypt value").choices(["true", "false"]))
+  .addOption(new Option("-e, --encrypt", "Enable encryption"))
+  .addOption(new Option("-n, --no-encrypt", "Disable encryption"))
   .addOption(new Option("-d, --backup-dir <path>", "Set backup directory"))
   .addOption(
     new Option("-b, --backend <path>", "Set backend server").choices(["local", "s3", "git"]),

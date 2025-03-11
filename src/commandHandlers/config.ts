@@ -17,7 +17,7 @@ export function setConfigHandler(options: Partial<DevSyncConfig>, cmd: Command) 
     config.backend = options.backend;
     log.info(`☁️ Storage backend set to: ${options.backend}`);
   }
-  if (typeof options.encrypt !== "undefined") {
+  if (options.encrypt !== undefined) {
     config.encrypt = options.encrypt;
     log.info(`🔒 Encryption: ${options.encrypt ? "Enabled" : "Disabled"}`);
   }
