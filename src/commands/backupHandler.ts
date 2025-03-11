@@ -3,11 +3,11 @@ import path from "path";
 import log from "../utils/logger";
 import { loadConfig } from "../utils/config";
 
-export const syncHandler = () => {
+export const backupHander = () => {
   const config = loadConfig();
 
   if (config.dotfiles.length === 0) {
-    log.warn("⚠️ No dotfiles to sync. Use 'devsync add-dotfile <filepath>' first.");
+    log.warn("⚠️ No dotfiles to backup. Use 'devsync add-dotfile <filepath>' first.");
     return;
   }
 
@@ -15,7 +15,7 @@ export const syncHandler = () => {
 
   if (!fs.existsSync(config.backupDir)) {
     fs.mkdirSync(config.backupDir);
-    log.success(`📁 Created sync directory: ${config.backupDir}`);
+    log.success(`📁 Created backup directory: ${config.backupDir}`);
   }
 
   config.dotfiles.forEach((file) => {
@@ -24,11 +24,11 @@ export const syncHandler = () => {
 
     if (fs.existsSync(sourcePath)) {
       fs.copySync(sourcePath, backupPath);
-      log.success(`✅ Synced: ${file} -> ${backupPath}`);
+      log.success(`✅ Backed up: ${file} -> ${backupPath}`);
     } else {
       log.error(`❌ File not found: ${file}`);
     }
   });
 
-  log.success("🎉 Sync completed successfully!");
+  log.success("🎉 Backup completed successfully!");
 };

@@ -4,7 +4,7 @@ import { Command, Option } from "commander";
 import log from "./utils/logger";
 import { initHandler } from "./commands/init";
 import { addDotfileHandler } from "./commands/addDotfile";
-import { syncHandler } from "./commands/sync";
+import { backupHander } from "./commands/backupHandler";
 import { getConfigHandler, listConfigHandler, setConfigHandler } from "./commands/config";
 
 const program = new Command();
@@ -25,7 +25,7 @@ program
   .description("Add a dotfile to sync")
   .action(addDotfileHandler);
 
-program.command("backup").description("Backup all dotfiles").action(syncHandler);
+program.command("backup").description("Backup all dotfiles").action(backupHander);
 
 configCommand
   .command("set")
