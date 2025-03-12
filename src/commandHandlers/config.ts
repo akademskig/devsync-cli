@@ -24,7 +24,7 @@ export function setConfigHandler(options: Partial<DevSyncConfig>, cmd: Command) 
   saveConfig(config);
 }
 
-export const getConfigHandler = (input: keyof DevSyncConfig): any => {
+export const getConfigHandler = (input: Partial<DevSyncConfig>): any => {
   const keys = Object.keys(input) as (keyof DevSyncConfig)[];
   const config = loadConfig();
   keys.forEach((key) => {
