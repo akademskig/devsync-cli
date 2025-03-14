@@ -3,3 +3,4 @@ devsync_backup
 devsync-config.json
 devsync-config.yaml
 dist
+coverage
