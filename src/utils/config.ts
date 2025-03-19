@@ -4,18 +4,12 @@ import yaml from "yaml";
 import log from "./logger";
 import { CONFIG_FILE_PATH, DEFAULT_CONFIG_FILE_FORMAT } from "../common/constants";
 import { FormatEnum } from "../types/format";
-
-export interface DevSyncConfig {
-  dotfiles: string[];
-  backupDir: string;
-  backend: "local" | "git" | "s3";
-  encrypt: boolean;
-}
+import { BackendTypeEnum, DevSyncConfig } from "../types/devSyncConfig";
 
 export const defaultConfig: DevSyncConfig = {
   dotfiles: [],
   backupDir: path.join(process.cwd(), "devsync_backup"),
-  backend: "local",
+  backend: BackendTypeEnum.LOCAL,
   encrypt: false,
 };
 
