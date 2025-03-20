@@ -1,6 +1,7 @@
 import { Command } from "commander";
-import { loadConfig, saveConfig, DevSyncConfig } from "../utils/config";
+import { loadConfig, saveConfig } from "../utils/config";
 import log from "../utils/logger";
+import { DevSyncConfig } from "../types/devSyncConfig";
 
 export function setConfigHandler(options: Partial<DevSyncConfig>, cmd: Command) {
   if (Object.keys(options).length === 0 || !options) {
