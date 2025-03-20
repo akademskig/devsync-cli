@@ -1,4 +1,4 @@
-import { addDotfileHandler } from "./addDotfile";
+import { addDotfileHandler } from "./addDotfileHandler";
 import { loadConfig, saveConfig } from "../utils/config";
 import log from "../utils/logger";
 import { BackendTypeEnum } from "../types/devSyncConfig";

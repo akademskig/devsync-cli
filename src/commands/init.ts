@@ -1,5 +1,5 @@
 import { Command, Option } from "commander";
-import { initHandler } from "../commandHandlers/init";
+import { initHandler } from "../commandHandlers/initHandler";
 
 const initCommand = new Command("init")
   .command("init")

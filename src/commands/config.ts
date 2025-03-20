@@ -1,5 +1,5 @@
 import { Command, Option } from "commander";
-import { getConfigHandler, listConfigHandler, setConfigHandler } from "../commandHandlers/config";
+import { getConfigHandler, listConfigHandler, setConfigHandler } from "../commandHandlers/setConfigHandler";
 
 const configCommand = new Command("config").description("Manage DevSync configuration");
 

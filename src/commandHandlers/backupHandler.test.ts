@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import log from "../utils/logger";
 import path from "path";
 import { loadConfig } from "../utils/config";
-import { backupHander } from "./backup";
+import { backupHander } from "./backupHandler";
 import { BackendTypeEnum } from "../types/devSyncConfig";
 
 // filepath: src/commandHandlers/backup.test.ts
