@@ -2,8 +2,8 @@
 
 import { Command } from "commander";
 import log from "./utils/logger";
-import { addDotfileHandler } from "./commandHandlers/addDotfile";
-import { backupHander } from "./commandHandlers/backup";
+import { addDotfileHandler } from "./commandHandlers/addDotfileHandler";
+import { backupLocalHander } from "./commandHandlers/backupLocalHandler";
 import configCommand from "./commands/config";
 import setupCommand from "./commands/setup";
 import initCommand from "./commands/init";
@@ -23,7 +23,7 @@ program
   .description("Add a dotfile to sync")
   .action(addDotfileHandler);
 
-program.command("backup").description("Backup all dotfiles").action(backupHander);
+program.command("backup").description("Backup all dotfiles").action(backupLocalHander);
 
 program.addCommand(initCommand);
 program.addCommand(configCommand);
