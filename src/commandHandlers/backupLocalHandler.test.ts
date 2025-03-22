@@ -2,10 +2,9 @@ import fs from "fs-extra";
 import log from "../utils/logger";
 import path from "path";
 import { loadConfig } from "../utils/config";
-import { backupHander } from "./backupHandler";
+import { backupLocalHander } from "./backupLocalHandler";
 import { BackendTypeEnum } from "../types/devSyncConfig";
 
-// filepath: src/commandHandlers/backup.test.ts
 
 jest.mock("fs-extra");
 jest.mock("path");
@@ -17,7 +16,7 @@ const mockLog = log as jest.Mocked<typeof log>;
 const mockLoadConfig = loadConfig as jest.MockedFunction<typeof loadConfig>;
 const mockPath = path as jest.Mocked<typeof path>;
 
-describe("backupHander", () => {
+describe("backupLocalHander", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -30,7 +29,7 @@ describe("backupHander", () => {
       encrypt: false,
     });
 
-    backupHander();
+    backupLocalHander();
 
     expect(mockLoadConfig).toHaveBeenCalled();
     expect(mockLog.warn).toHaveBeenCalledWith(
@@ -49,7 +48,7 @@ describe("backupHander", () => {
     });
     mockFs.existsSync.mockImplementation((path) => path !== "/backup");
 
-    backupHander();
+    backupLocalHander();
 
     expect(mockFs.existsSync).toHaveBeenCalledWith("/backup");
     expect(mockFs.mkdirSync).toHaveBeenCalledWith("/backup");
@@ -75,7 +74,7 @@ describe("backupHander", () => {
     mockFs.copySync.mockImplementation(() => {});
     mockPath.join.mockReturnValue(backupPath);
     mockPath.resolve.mockReturnValue(dotfile);
-    backupHander();
+    backupLocalHander();
 
     expect(mockFs.existsSync).toHaveBeenCalledWith(backupDir);
     expect(mockFs.existsSync).toHaveBeenCalledWith(dotfile);
@@ -96,7 +95,7 @@ describe("backupHander", () => {
     mockFs.existsSync.mockImplementation((path) => path === backupDir);
     mockPath.resolve.mockReturnValue(dotfile);
 
-    backupHander();
+    backupLocalHander();
 
     expect(mockFs.existsSync).toHaveBeenCalledWith(dotfile);
     expect(mockFs.copySync).not.toHaveBeenCalled();
@@ -116,7 +115,7 @@ describe("backupHander", () => {
     mockFs.existsSync.mockImplementation((path) => path === dotfile || path === backupDir);
     mockFs.copySync.mockImplementation(() => {});
 
-    backupHander();
+    backupLocalHander();
 
     expect(mockLog.success).toHaveBeenCalledWith("🎉 Backup completed successfully!");
   });

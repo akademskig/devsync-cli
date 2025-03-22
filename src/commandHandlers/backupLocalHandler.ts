@@ -3,7 +3,7 @@ import path from "path";
 import log from "../utils/logger";
 import { loadConfig } from "../utils/config";
 
-export const backupHander = () => {
+export const backupLocalHander = () => {
   const config = loadConfig();
 
   if (config.dotfiles.length === 0) {
