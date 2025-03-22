@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { Command } from "commander";
-import initCommand from "./commands/init";
+import initCommand from "./init";
 
 const TEST_DIR = path.join(__dirname, "test-output");
 const JSON_CONFIG_PATH = path.join(TEST_DIR, "devsync.json");
@@ -31,7 +31,7 @@ describe("DevSync Init Command", () => {
   });
 
   it("should create a JSON config file", () => {
-    jest.spyOn(require("./utils/config"), "getConfigFilePath").mockReturnValue(JSON_CONFIG_PATH);
+    jest.spyOn(require("../utils/config"), "getConfigFilePath").mockReturnValue(JSON_CONFIG_PATH);
     program.parse(["init", "--format", "json"], { from: "user" });
 
     expect(fs.existsSync(JSON_CONFIG_PATH)).toBe(true);
@@ -40,7 +40,7 @@ describe("DevSync Init Command", () => {
   });
 
   it("should create a YAML config file", () => {
-    jest.spyOn(require("./utils/config"), "getConfigFilePath").mockReturnValue(YAML_CONFIG_PATH);
+    jest.spyOn(require("../utils/config"), "getConfigFilePath").mockReturnValue(YAML_CONFIG_PATH);
     program.parse(["init", "--format", "yaml"], { from: "user" });
 
     expect(fs.existsSync(YAML_CONFIG_PATH)).toBe(true);
