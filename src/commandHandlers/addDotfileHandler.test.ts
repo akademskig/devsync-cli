@@ -1,5 +1,5 @@
 import { addDotfileHandler } from "./addDotfileHandler";
-import { loadConfig, saveConfig } from "../utils/config";
+import { defaultConfig, loadConfig, saveConfig } from "../utils/config";
 import log from "../utils/logger";
 import { BackendTypeEnum } from "../types/devSyncConfig";
 
@@ -18,6 +18,7 @@ describe("addDotfileHandler", () => {
   it("should add a new filepath to the dotfiles list and save the config", () => {
     const filepath = "/path/to/dotfile";
     const mockConfig = {
+      ...defaultConfig,
       dotfiles: [],
       backupDir: "/backup",
       backend: BackendTypeEnum.LOCAL,
@@ -36,6 +37,7 @@ describe("addDotfileHandler", () => {
   it("should not add a filepath if it is already in the dotfiles list", () => {
     const filepath = "/path/to/dotfile";
     const mockConfig = {
+      ...defaultConfig,
       dotfiles: [filepath],
       backupDir: "/backup",
       backend: BackendTypeEnum.LOCAL,

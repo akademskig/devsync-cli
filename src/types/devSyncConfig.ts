@@ -9,5 +9,5 @@ export interface DevSyncConfig {
   backupDir: string;
   backend: BackendTypeEnum;
   encrypt: boolean;
-  remoteUrl?: string;
+  remoteUrl: string;
 }
