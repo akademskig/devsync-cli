@@ -11,6 +11,7 @@ export const defaultConfig: DevSyncConfig = {
   backupDir: path.join(process.cwd(), "devsync_backup"),
   backend: BackendTypeEnum.LOCAL,
   encrypt: false,
+  remoteUrl: "",
 };
 
 export const getConfigFilePath = (format: FormatEnum) => `${CONFIG_FILE_PATH}.${format}`;

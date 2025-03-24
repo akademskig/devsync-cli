@@ -5,7 +5,6 @@ import { loadConfig } from "../utils/config";
 import { backupLocalHander } from "./backupLocalHandler";
 import { BackendTypeEnum } from "../types/devSyncConfig";
 
-
 jest.mock("fs-extra");
 jest.mock("path");
 jest.mock("../utils/logger");

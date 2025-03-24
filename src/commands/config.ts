@@ -1,5 +1,9 @@
 import { Command, Option } from "commander";
-import { getConfigHandler, listConfigHandler, setConfigHandler } from "../commandHandlers/setConfigHandler";
+import {
+  getConfigHandler,
+  listConfigHandler,
+  setConfigHandler,
+} from "../commandHandlers/setConfigHandler";
 
 const configCommand = new Command("config").description("Manage DevSync configuration");
 
@@ -8,6 +12,7 @@ configCommand
   .addOption(new Option("-e, --encrypt", "Enable encryption"))
   .addOption(new Option("-n, --no-encrypt", "Disable encryption"))
   .addOption(new Option("-d, --backup-dir <path>", "Set backup directory"))
+  .addOption(new Option("-r, --remote-url <url>", "Set remote URL"))
   .addOption(
     new Option("-b, --backend <path>", "Set backend server").choices(["local", "s3", "git"]),
   )
@@ -19,6 +24,7 @@ configCommand
   .addOption(new Option("-e, --encrypt", "Get encrypt value"))
   .addOption(new Option("-d, --backup-dir", "Get backup directory"))
   .addOption(new Option("-b, --backend", "Get backend server"))
+  .addOption(new Option("-r, --remote-url", "Set remote URL"))
   .description("Get a configuration value")
   .action(getConfigHandler);
 
